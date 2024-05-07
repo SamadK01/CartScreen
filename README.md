@@ -14,6 +14,11 @@ This project is a simple React Native application demonstrating a shopping cart 
 
 To run this project, you need to have Node.js and npm (or Yarn) installed on your computer. After installing Node, follow these steps:
 
+
+
 1. Clone the repository:
    ```bash
    <!-- git clone https://github.com/yourusername/your-repo-name.git -->
+
+![Screenshot_1715064097](https://github.com/SamadK01/CartScreen/assets/123169527/4886ea91-59fe-4ed2-8ee6-f5bbddb22282)
+![Screenshot_1715063152](https://github.com/SamadK01/CartScreen/assets/123169527/3582db66-19be-4059-aa56-80b02960ad59)
