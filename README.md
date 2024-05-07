@@ -14,7 +14,8 @@ This project is a simple React Native application demonstrating a shopping cart 
 
 To run this project, you need to have Node.js and npm (or Yarn) installed on your computer. After installing Node, follow these steps:
 
-
+# npm install
+# npx react-native run-android
 
 1. Clone the repository:
    ```bash
