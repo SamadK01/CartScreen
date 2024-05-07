@@ -1,23 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image, SafeAreaView } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import products, { Product } from './src/data';
 
-const appleImage = require('./src/images/candle.jpeg');
-const bananaImage = require('./src/images/nugg.jpeg');
-const cherryImage = require('./src/images/candle.jpeg');
-
-const products = [
-  { id: '1', name: 'Apple', price: 100, image: appleImage, discount: 15 },
-  { id: '2', name: 'Banana', price: 80, image: bananaImage, discount: 10 },
-  { id: '3', name: 'Cherry', price: 150, image: cherryImage },
-  { id: '4', name: 'Cherry', price: 170, image: cherryImage, discount: 20 }
-];
+export interface CartItem extends Product {
+  quantity: number;
+}
 
 export default function App() {
-  const [cart, setCart] = useState([]);
-  const [selectedIds, setSelectedIds] = useState([]);
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-  const addToCart = (product) => {
+  const addToCart = (product: Product) => {
     const productExists = cart.find(item => item.id === product.id);
     if (productExists) {
       setCart(cart.map(item => item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item));
@@ -26,12 +20,12 @@ export default function App() {
     }
   };
 
-  const removeFromCart = (productId) => {
+  const removeFromCart = (productId: string) => {
     setCart(cart.filter(item => item.id !== productId));
     setSelectedIds(selectedIds.filter(id => id !== productId));
   };
 
-  const toggleSelection = (id) => {
+  const toggleSelection = (id: string) => {
     if (selectedIds.includes(id)) {
       setSelectedIds(selectedIds.filter(item => item !== id));
     } else {
@@ -44,8 +38,15 @@ export default function App() {
     setSelectedIds([]);
   };
 
-  const getTotalPrice = () => {
-    return cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const getTotalPrice = (): number => {
+    return cart.reduce((acc, item) => {
+      // Calculate the discount if any
+      const discountMultiplier = item.discount ? (100 - item.discount) / 100 : 1;
+      // Apply the discount to the price
+      const discountedPrice = item.price * discountMultiplier;
+      // Accumulate the total
+      return acc + discountedPrice * item.quantity;
+    }, 0);
   };
 
   const totalItemsInCart = cart.reduce((acc, item) => acc + item.quantity, 0);
@@ -58,7 +59,7 @@ export default function App() {
           <MaterialCommunityIcons name="delete" size={25} color="white" />
         </TouchableOpacity>
       </View>
-      <FlatList
+      <FlatList<Product>
         data={products}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
@@ -118,7 +119,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 15,
-    backgroundColor: '#FFD4C7',
+    backgroundColor: '#FF612F',
     marginBottom: 20,
     paddingHorizontal: 10,
     borderRadius: 10
